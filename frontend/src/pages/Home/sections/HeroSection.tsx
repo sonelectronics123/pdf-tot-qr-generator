@@ -33,6 +33,7 @@ const HeroSection = ({
 
   const login = useGoogleLogin({
     scope: "https://www.googleapis.com/auth/drive.file",
+    prompt: "consent",
 
     onSuccess: async (tokenResponse) => {
       const authResponse = tokenResponse as GoogleAuthResponse;
