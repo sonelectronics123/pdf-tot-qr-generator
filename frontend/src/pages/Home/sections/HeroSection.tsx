@@ -13,7 +13,7 @@ import {
 
 type HeroSectionProps = {
   auth: GoogleAuthResponse | null;
-  setAuth: React.Dispatch<React.SetStateAction<GoogleAuthResponse | null>>;
+  setAuth: (auth: GoogleAuthResponse | null) => void;
   setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>;
 };
 
