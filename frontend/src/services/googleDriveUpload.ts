@@ -187,6 +187,9 @@ export const uploadFileToDrive = async (
     }
 
     // All other errors
+    if (axios.isAxiosError(error) && error.response?.data?.error?.message) {
+      throw new Error(`Google API Error: ${error.response.data.error.message}`);
+    }
     throw error;
   }
 };
