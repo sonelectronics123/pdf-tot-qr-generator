@@ -36,6 +36,16 @@ const HeroSection = ({
 
     onSuccess: async (tokenResponse) => {
       const authResponse = tokenResponse as GoogleAuthResponse;
+
+      // Ensure the user actually checked the box to grant Drive access
+      const hasDriveScope = authResponse.scope && authResponse.scope.includes("https://www.googleapis.com/auth/drive.file");
+
+      if (!hasDriveScope) {
+        setErrorMessage("You must check the box to grant Google Drive access during sign-in so we can upload the PDF.");
+        setAuth(null);
+        return;
+      }
+
       setAuth(authResponse);
       setErrorMessage(null);
 
