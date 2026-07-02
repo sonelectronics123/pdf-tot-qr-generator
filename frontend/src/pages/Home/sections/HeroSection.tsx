@@ -32,7 +32,10 @@ const HeroSection = ({
   const qrRef = useRef<SVGSVGElement>(null);
 
   const login = useGoogleLogin({
-    scope: "https://www.googleapis.com/auth/drive.file",
+    scope: [
+      "https://www.googleapis.com/auth/drive.file",
+      "https://www.googleapis.com/auth/drive.metadata.readonly",
+    ].join(" "),
     prompt: "consent",
 
     onSuccess: async (tokenResponse) => {
