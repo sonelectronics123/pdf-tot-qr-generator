@@ -1,15 +1,11 @@
-import { useState, useRef } from "react";
-import { QRCodeSVG } from "qrcode.react";
+import { useState } from "react";
 import Button from "../../../components/Button/Button";
 import PreviewCard from "../../../components/PreviewCard/PreviewCard";
+import QRResultCard from "../../../components/QRResultCard/QRResultCard";
 import { useGoogleLogin } from "@react-oauth/google";
 import type { GoogleAuthResponse } from "../../../types/auth";
 import { getDriveAbout } from "../../../services/googleDrive";
-import {
-  uploadFileToDrive,
-  DuplicateFileError,
-  ExpiredTokenError,
-} from "../../../services/googleDriveUpload";
+import { useDriveUpload } from "../../../hooks/useDriveUpload";
 
 type HeroSectionProps = {
   auth: GoogleAuthResponse | null;
@@ -24,12 +20,19 @@ const HeroSection = ({
 }: HeroSectionProps) => {
 
   const [selectedFile, setLocalFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadedFileId, setUploadedFileId] = useState<string | null>(null);
-  const [shareableLink, setShareableLink] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);
 
-  const qrRef = useRef<SVGSVGElement>(null);
+  const {
+    isUploading,
+    uploadedFileId,
+    shareableLink,
+    errorMessage: uploadErrorMessage,
+    uploadedFileName,
+    uploadFile,
+    resetUploadState
+  } = useDriveUpload(auth, setAuth);
+
+  const errorMessage = authErrorMessage || uploadErrorMessage;
 
   const login = useGoogleLogin({
     scope: [
@@ -41,17 +44,16 @@ const HeroSection = ({
     onSuccess: async (tokenResponse) => {
       const authResponse = tokenResponse as GoogleAuthResponse;
 
-      // Ensure the user actually checked the box to grant Drive access
       const hasDriveScope = authResponse.scope && authResponse.scope.includes("https://www.googleapis.com/auth/drive.file");
 
       if (!hasDriveScope) {
-        setErrorMessage("You must check the box to grant Google Drive access during sign-in so we can upload the PDF.");
+        setAuthErrorMessage("You must check the box to grant Google Drive access during sign-in so we can upload the PDF.");
         setAuth(null);
         return;
       }
 
       setAuth(authResponse);
-      setErrorMessage(null);
+      setAuthErrorMessage(null);
 
       console.log("Google Login Success:", authResponse);
 
@@ -64,7 +66,7 @@ const HeroSection = ({
     },
 
     onError: () => {
-      setErrorMessage("Google sign in failed. Please try again.");
+      setAuthErrorMessage("Google sign in failed. Please try again.");
       console.error("Google Login Failed");
     },
   });
@@ -82,92 +84,22 @@ const HeroSection = ({
 
     setLocalFile(file);
     setSelectedFile(file);
-    setErrorMessage(null);
+    setAuthErrorMessage(null);
+    resetUploadState(); // Reset upload state on new file selection
     console.log("File selected:", file.name);
   };
 
   const handleUpload = async () => {
-    if (!auth || !selectedFile) return;
-
-    setIsUploading(true);
-    setErrorMessage(null);
-
-    try {
-      const result = await uploadFileToDrive(
-        auth.access_token,
-        selectedFile
-      );
-
-      setUploadedFileId(result.fileId);
-      setShareableLink(result.shareableLink);
-
-      console.log("Upload complete.");
-      console.log("File ID:", result.fileId);
-      console.log("Shareable link:", result.shareableLink);
-
-    } catch (error) {
-      if (error instanceof DuplicateFileError) {
-        setErrorMessage(error.message);
-        console.warn("Duplicate file blocked:", error.message);
-
-      } else if (error instanceof ExpiredTokenError) {
-        setErrorMessage(error.message);
-        setAuth(null);
-        console.warn("Token expired. Auth state reset.");
-
-      } else {
-        setErrorMessage("Upload failed. Please try again.");
-        console.error("Upload failed:", error);
-      }
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const handleDownloadQR = () => {
-    const svg = qrRef.current;
-    if (!svg) return;
-
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-    const svgUrl = URL.createObjectURL(svgBlob);
-
-    const image = new Image();
-    image.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = 480;
-      canvas.height = 480;
-
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      URL.revokeObjectURL(svgUrl);
-
-      const pngUrl = canvas.toDataURL("image/png");
-      const downloadLink = document.createElement("a");
-      const fileName = selectedFile?.name.replace(".pdf", "") ?? "qr-code";
-
-      downloadLink.href = pngUrl;
-      downloadLink.download = `${fileName}-qr.png`;
-      downloadLink.click();
-
-      console.log("QR code downloaded:", `${fileName}-qr.png`);
-    };
-
-    image.src = svgUrl;
+    if (!selectedFile) return;
+    await uploadFile(selectedFile);
   };
 
   const handleLogout = () => {
     setAuth(null);
     setSelectedFile(null);
     setLocalFile(null);
-    setUploadedFileId(null);
-    setShareableLink(null);
-    setErrorMessage(null);
+    setAuthErrorMessage(null);
+    resetUploadState();
   };
 
   return (
@@ -270,25 +202,11 @@ const HeroSection = ({
         </div>
 
         <div>
-          {shareableLink ? (
-            <div className="flex flex-col items-center space-y-4 rounded-3xl border bg-white p-8 shadow-sm">
-              <p className="text-sm font-medium text-gray-500">Your QR Code</p>
-
-              <QRCodeSVG
-                ref={qrRef}
-                value={shareableLink}
-                size={240}
-                marginSize={2}
-              />
-
-              <p className="text-center text-sm text-gray-500">
-                Scan to open <span className="font-medium text-gray-900">{selectedFile?.name}</span>
-              </p>
-
-              <Button variant="primary" onClick={handleDownloadQR}>
-                Download QR Code
-              </Button>
-            </div>
+          {shareableLink && uploadedFileName ? (
+            <QRResultCard 
+              shareableLink={shareableLink}
+              fileName={uploadedFileName}
+            />
           ) : (
             <PreviewCard />
           )}
