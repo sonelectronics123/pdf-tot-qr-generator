@@ -107,12 +107,11 @@ const HeroSection = ({
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div>
           <h1 className="text-primary text-5xl font-bold leading-tight lg:text-7xl">
-            Turn PDFs Into Shareable QR Codes
+            PDF QR Generator
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-gray-600">
-            Upload PDFs directly to Google Drive and instantly generate
-            shareable QR codes for seamless document access.
+            <strong>Purpose of this application:</strong> PDF QR Generator is a free tool designed to help you easily share PDF documents in the physical world. By signing in, you grant the app permission to upload your selected PDF directly to a dedicated folder in your personal Google Drive, make that specific file publicly viewable, and generate a QR code linking to it. We do not store your files on our own servers.
           </p>
 
           <div className="mt-8 space-y-4">

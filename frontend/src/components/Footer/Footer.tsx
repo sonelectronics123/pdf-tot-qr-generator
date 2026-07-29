@@ -7,7 +7,7 @@ const Footer = () => {
       <Container>
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} QR Generator. All rights reserved.
+            © {new Date().getFullYear()} PDF QR Generator. All rights reserved.
           </p>
           
           <nav className="flex gap-6">
