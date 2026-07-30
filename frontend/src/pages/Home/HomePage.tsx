@@ -20,7 +20,7 @@ const HomePage = () => {
           setSelectedFile={setSelectedFile}
         />
         
-        <AboutAppSection />
+        {/* <AboutAppSection /> */}
       </Container>
     </main>
   );

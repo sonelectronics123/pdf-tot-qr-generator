@@ -21,7 +21,7 @@ function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     </GoogleOAuthProvider>
