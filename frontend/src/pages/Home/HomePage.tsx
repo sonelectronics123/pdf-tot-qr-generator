@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 import Container from "../../components/Container/Container";
 import HeroSection from "./sections/HeroSection";
+import AboutAppSection from "./sections/AboutAppSection";
 
 const HomePage = () => {
   const { auth, setAuth } = useAuth();
@@ -18,6 +19,8 @@ const HomePage = () => {
           setAuth={setAuth}
           setSelectedFile={setSelectedFile}
         />
+        
+        <AboutAppSection />
       </Container>
     </main>
   );

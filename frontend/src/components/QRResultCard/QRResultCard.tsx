@@ -5,9 +5,10 @@ import Button from "../Button/Button";
 type QRResultCardProps = {
   shareableLink: string;
   fileName: string;
+  scanLabel?: string;
 };
 
-const QRResultCard = ({ shareableLink, fileName }: QRResultCardProps) => {
+const QRResultCard = ({ shareableLink, fileName, scanLabel }: QRResultCardProps) => {
   const qrRef = useRef<SVGSVGElement>(null);
 
   const handleDownloadQR = () => {
@@ -57,7 +58,11 @@ const QRResultCard = ({ shareableLink, fileName }: QRResultCardProps) => {
       />
 
       <p className="text-center text-sm text-gray-500">
-        Scan to open <span className="font-medium text-gray-900">{fileName}</span>
+        {scanLabel ? (
+          scanLabel
+        ) : (
+          <>Scan to open <span className="font-medium text-gray-900">{fileName}</span></>
+        )}
       </p>
 
       <Button variant="primary" onClick={handleDownloadQR}>

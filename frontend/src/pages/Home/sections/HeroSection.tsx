@@ -110,9 +110,17 @@ const HeroSection = ({
             PDF QR Generator
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-gray-600">
-            <strong>Purpose of this application:</strong> PDF QR Generator is a free tool designed to help you easily share PDF documents in the physical world. By signing in, you grant the app permission to upload your selected PDF directly to a dedicated folder in your personal Google Drive, make that specific file publicly viewable, and generate a QR code linking to it. We do not store your files on our own servers.
-          </p>
+          <div className="mt-6 max-w-xl text-lg leading-relaxed text-gray-600 space-y-4">
+            <p>
+              PDF QR Generator is an application designed to securely convert your PDF documents into shareable QR codes.
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>Uploads a user-selected PDF to the user's own Google Drive.</li>
+              <li>Creates a publicly viewable shareable link for that uploaded PDF.</li>
+              <li>Generates a QR code pointing to that link.</li>
+              <li>Does not store files on its own servers.</li>
+            </ul>
+          </div>
 
           <div className="mt-8 space-y-4">
             {!auth ? (
