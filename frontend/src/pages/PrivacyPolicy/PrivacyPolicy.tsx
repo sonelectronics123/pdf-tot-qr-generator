@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
             <section>
               <h2 className="text-2xl font-semibold text-gray-900 mb-3">1. Introduction</h2>
               <p>
-                Welcome to PDF QR Generator. We respect your privacy and are committed to protecting your personal data. 
+                Welcome to the PDF QR Generator. We respect your privacy and are committed to protecting your personal data. 
                 This Privacy Policy explains how we handle your information when you use our service to convert PDFs to QR codes.
               </p>
             </section>
