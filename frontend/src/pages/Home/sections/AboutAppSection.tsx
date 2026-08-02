@@ -18,7 +18,7 @@ const AboutAppSection = () => {
 
         {/* Why Google Sign-In is Required */}
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Google Sign-In is Required</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Google Sign-In is Required?</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
             Authentication is required before uploading files to ensure they are stored in your own secure environment. 
             By signing in, the app can upload files <strong>only to your own Google Drive</strong>. 
