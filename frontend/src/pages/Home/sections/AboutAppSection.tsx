@@ -23,9 +23,9 @@ const AboutAppSection = () => {
             Authentication is required before uploading files to ensure they are stored in your own secure environment. 
             By signing in, the app can upload files <strong>only to your own Google Drive</strong>. 
           </p>
-          <p className="text-lg text-gray-700 leading-relaxed font-medium text-red-600 bg-red-50 p-4 rounded-xl border border-red-100">
+          {/* <p className="text-lg text-gray-700 leading-relaxed font-medium text-red-600 bg-red-50 p-4 rounded-xl border border-red-100">
             The app never accesses Gmail, Google Photos, Contacts, Calendar, or any other Google services.
-          </p>
+          </p> */}
         </div>
 
         {/* Google Permissions Requested */}

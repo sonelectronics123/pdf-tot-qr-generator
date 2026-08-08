@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Container from '../Container/Container';
 
 const Navbar = () => {
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isAboutOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => {
