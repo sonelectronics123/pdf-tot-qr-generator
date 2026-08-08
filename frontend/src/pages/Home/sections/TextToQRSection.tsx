@@ -16,14 +16,14 @@ const TextToQRSection = () => {
     <section className="py-24">
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div>
-          <h2 className="text-4xl font-bold leading-tight text-gray-900 lg:text-5xl">
+          {/* <h2 className="text-4xl font-bold leading-tight text-gray-900 lg:text-5xl">
             Create QR Codes from Text
           </h2>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-gray-600">
             Need a simple QR code for a name, wifi password, or short message? 
             Just type it below and instantly generate a downloadable QR code. No Google sign-in required!
-          </p>
+          </p> */}
 
           <div className="mt-8 space-y-6">
             <TextArea

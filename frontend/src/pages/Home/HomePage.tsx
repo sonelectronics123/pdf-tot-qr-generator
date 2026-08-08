@@ -9,7 +9,7 @@ const HomePage = () => {
   const { auth, setAuth } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  console.log("Selected file:", selectedFile?.name);
+  // console.log("Selected file:", selectedFile?.name);
 
   return (
     <main>

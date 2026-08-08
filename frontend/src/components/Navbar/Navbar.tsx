@@ -14,10 +14,10 @@ const Navbar = () => {
     <nav className="border-b bg-white py-4 sticky top-0 z-50 shadow-sm">
       <Container>
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-gray-900 tracking-tight hover:opacity-80 transition-opacity">
+          {/* <Link to="/" className="flex items-center gap-2 text-xl font-bold text-gray-900 tracking-tight hover:opacity-80 transition-opacity">
             <img src="/favicon.png" alt="PDF QR Generator Logo" className="w-8 h-8 object-contain" />
             PDF QR Generator
-          </Link>
+          </Link> */}
 
           <div className="flex items-center gap-6">
             <Link to="/" className={`text-sm ${isActive('/')}`}>
@@ -28,14 +28,14 @@ const Navbar = () => {
             </Link>
             
             <div className="relative">
-              <button 
+              {/* <button 
                 onClick={() => setIsAboutOpen(!isAboutOpen)}
                 onBlur={() => setTimeout(() => setIsAboutOpen(false), 200)}
                 className="flex items-center gap-1 text-sm text-gray-600 hover:text-primary transition-colors focus:outline-none"
               >
                 About
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-              </button>
+              </button> */}
               
               {isAboutOpen && (
                 <div className="absolute right-0 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5">
